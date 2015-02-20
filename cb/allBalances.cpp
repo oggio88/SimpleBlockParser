@@ -9,13 +9,18 @@
 #include <callback.h>
 
 #include <vector>
+#include <map>
+#include <cmath>
 #include <string.h>
+#include <cstdio>
+#include <sqlite3.h>
 
 struct Addr;
 static uint8_t emptyKey[kSHA256ByteSize] =
 { 0x52 };
 typedef GoogMap<Hash160, Addr*, Hash160Hasher, Hash160Equal>::Map AddrMap;
 typedef GoogMap<Hash160, int, Hash160Hasher, Hash160Equal>::Map RestrictMap;
+typedef std::map<unsigned long, unsigned> BalanceMap;
 
 struct Output
 {
@@ -26,7 +31,10 @@ struct Output
 	const uint8_t *upTXHash;
 	const uint8_t *downTXHash;
 };
+
 typedef std::vector<Output> OutputVec;
+
+typedef std::map<unsigned long, unsigned> BalanceMap;
 
 struct Addr
 {
@@ -56,7 +64,6 @@ struct CompareAddr
 
 struct AllBalances: public Callback
 {
-	bool csv;
 	bool detailed;
 	int64_t limit;
 	uint64_t offset;
@@ -72,6 +79,18 @@ struct AllBalances: public Callback
 	RestrictMap restrictMap;
 	std::vector<Addr*> allAddrs;
 	std::vector<uint160_t> restricts;
+
+	int64_t addrNum;
+	int64_t nonZeroCnt;
+	struct tm timeStruct;
+	unsigned char lastMonth = 0;
+	unsigned short lastYear = 0;
+	char timeBuf[256];
+	FILE* outfile;
+
+	unsigned long idBalance=1, idDate=0;
+
+//	std::vector<std::string> timeVector;
 
 	AllBalances()
 	{
@@ -90,8 +109,8 @@ struct AllBalances: public Callback
 				"only show address for top N results (default: N=%default)");
 		parser.add_option("-d", "--detailed").action("store_true").set_default(
 				false).help("also show all unspent outputs");
-		parser.add_option("-c", "--csv").action("store_true").set_default(false).help(
-				"produce CSV-formatted output instead column-formatted");
+		parser.add_option("-o", "--outputFile").action("store").set_default(
+				"out.txt").help("");
 	}
 
 	virtual const char *name() const
@@ -128,7 +147,17 @@ struct AllBalances: public Callback
 		showAddr = values.get("withAddr");
 		detailed = values.get("detailed");
 		limit = values.get("limit");
-		csv = values.get("csv");
+		const char* filename = values.get("outputFile");
+		outfile = fopen(filename, "w");
+		if (outfile == NULL)
+		{
+			printf("Impossible to open file: \'%s\'\n", filename);
+			exit(-1);
+		}
+
+		const char* init = "BEGIN; CREATE TABLE date(id INTEGER PRIMARY KEY, timestamp INTEGER);\n"
+		"CREATE TABLE BalanceSegment(id INTEGER PRIMARY KEY,logBalance INTEGER, count INTEGER, date_id INTEGER);\n\n";
+		fprintf(outfile, init);
 
 		auto args = parser.args();
 		for (size_t i = 1; i < args.size(); ++i)
@@ -273,37 +302,18 @@ struct AllBalances: public Callback
 		CompareAddr compare;
 		auto e = allAddrs.end();
 		auto s = allAddrs.begin();
-		if (false == csv)
-		{
-			info("sorting by balance ...");
-			std::sort(s, e, compare);
-		}
+		std::sort(s, e, compare);
 
 		uint64_t nbRestricts = (uint64_t) restrictMap.size();
-		if (0 == nbRestricts)
-		{
-			info("dumping all balances ...");
-		} else
-		{
-			info("dumping balances for %" PRIu64 " addresses ...", nbRestricts);
-		}
 
-		if (false == csv)
-		{
-			printf(
-					"---------------------------------------------------------------------------------------------------------------------------------------------------------------------\n"
-							"                 Balance                                  Hash160                             Base58   nbIn lastTimeIn                 nbOut lastTimeOut\n"
-							"---------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-		}
-
-		int64_t i = 0;
-		int64_t nonZeroCnt = 0;
-		struct tm timeStruct;
+		addrNum = 0;
+		nonZeroCnt = 0;
+		BalanceMap balanceMap;
 
 		while (likely(s < e))
 		{
 
-			if (0 <= limit && limit <= i)
+			if (0 <= limit && limit <= addrNum)
 				break;
 
 			Addr *addr = *(s++);
@@ -314,83 +324,34 @@ struct AllBalances: public Callback
 					continue;
 			}
 
-			if (csv)
-			{
-				printf("%" PRIu64 "\t", addr->sum);
-			} else
-			{
-				printf("%24.8f ", satoshisToNormaForm(addr->sum));
-			}
-
-			if (csv)
-			{
-				printEscapedBinaryBuffer(addr->hash.v, kRIPEMD160ByteSize);
-				putchar('\t');
-			} else
-			{
-				showHex(addr->hash.v, kRIPEMD160ByteSize, false);
-			}
-
 			if (0 < addr->sum)
 			{
 				++nonZeroCnt;
 			}
 
-			if (csv)
+			int exp = addr->sum > 0 ? log10(addr->sum) * 16 + 1 : 0;
+			if (balanceMap.find(exp) == balanceMap.end())
 			{
-				printf("%" PRIu64 "\t%" PRIu32 "\t%" PRIu64 "\t%" PRIu32 "\n",
-						addr->nbIn, addr->lastIn, addr->nbOut, addr->lastOut);
+				balanceMap[exp] = 1;
 			} else
 			{
-				if (i < showAddr || 0 != nbRestricts)
-				{
-					uint8_t buf[64];
-					hash160ToAddr(buf, addr->hash.v);
-					printf(" %s", buf);
-				} else
-				{
-					printf(" XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-				}
-
-				char timeBuf[256];
-				gmTime(timeStruct, timeBuf, addr->lastIn);
-				printf(" %6" PRIu64 " %s ", addr->nbIn, timeBuf);
-
-				gmTime(timeStruct, timeBuf, addr->lastOut);
-				printf(" %6" PRIu64 " %s\n", addr->nbOut, timeBuf);
-
-				if (detailed)
-				{
-					auto e = addr->outputVec->end();
-					auto s = addr->outputVec->begin();
-					while (s != e)
-					{
-						printf("    %24.8f ", satoshisToNormaForm(s->value));
-						gmTime(timeStruct, timeBuf, s->time);
-						showHex(s->upTXHash);
-						printf("%4" PRIu64 " %s", s->outputIndex, timeBuf);
-						if (s->downTXHash)
-						{
-							printf(" -> %4" PRIu64 " ", s->inputIndex);
-							showHex(s->upTXHash);
-						}
-						printf("\n");
-						++s;
-					}
-					printf("\n");
-				}
+				balanceMap[exp] += 1;
 			}
 
-			++i;
+//			timeVector.push_back(std::string(timeBuf));
+//			for (auto &it : balanceMap)
+//			{
+//				std::cout << it.first << '\t' << it.second << std::endl;
+//			}
+			++addrNum;
 		}
 
-		info("done\n");
-		info("found %" PRIu64 " addresses with non zero balance", nonZeroCnt);
-		info("found %" PRIu64 " addresses in total",
-				(uint64_t) allAddrs.size());
-		info("shown:%" PRIu64 " addresses", (uint64_t) i);
-		printf("\n");
-		exit(0);
+		for (auto x : balanceMap)
+		{
+			std::string insert = "INSERT INTO BalanceSegment(id, logBalance, count, date_id) VALUES(%lu, %lu, %u, %lu);\n";
+			fprintf(outfile, insert.c_str(), idBalance++, x.first, x.second, idDate);
+		}
+		fprintf(outfile, "\n");
 	}
 
 	virtual void start(const Block *s, const Block *e)
@@ -447,12 +408,70 @@ struct AllBalances: public Callback
 		LOAD(uint32_t, bTime, p);
 		blockTime = bTime;
 
+		gmTime(timeStruct, timeBuf, blockTime);
+
+		if (timeStruct.tm_mon > lastMonth || timeStruct.tm_year > lastYear)
+		{
+			std::string insert_date = "INSERT INTO DATE(id, timestamp) VALUES(%lu, %lu);\n";
+			fprintf(outfile, insert_date.c_str(), ++idDate, mktime(&timeStruct));
+
+			std::cout << timeBuf << std::endl;
+			//timeVector.push_back(std::string(timeBuf));
+			lastYear = timeStruct.tm_year;
+			lastMonth = timeStruct.tm_mon;
+			wrapup();
+		}
+
 		if (0 <= cutoffBlock && cutoffBlock <= curBlock->height)
 		{
-			wrapup();
+			info("done\n");
+			info("found %" PRIu64 " addresses with non zero balance",
+					nonZeroCnt);
+			info("found %" PRIu64 " addresses in total",
+					(uint64_t) allAddrs.size());
+			info("shown:%" PRIu64 " addresses", (uint64_t) addrNum);
+			fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch')"
+					"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+			fprintf(outfile, "COMMIT;\n");
+			//fclose(outfile);
+			exit(0);
 		}
 	}
 
+	~AllBalances()
+	{
+		fclose(outfile);
+	}
+
 };
+
+//class Sqlite
+//{
+//	int status;
+//	sqlite3 *cur;
+//
+//	void checkEsito()
+//	{
+//		if(status != SQLITE_OK)
+//		{
+//			printf("%s\n", sqlite3_errmsg(cur));
+//			exit(-1);
+//		}
+//	}
+//
+//public:
+//
+//	Sqlite(std::string filename)
+//	{
+//		status = sqlite3_open(filename.c_str(), &cur);
+//		checkEsito();
+//	}
+//
+//	void exec(std::string statement)
+//	{
+//		status = sqlite3_prepare(cur, statement.c_str(), );
+//	}
+//
+//};
 
 static AllBalances allBalances;
