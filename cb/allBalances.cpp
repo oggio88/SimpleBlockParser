@@ -431,9 +431,11 @@ struct AllBalances: public Callback
 		info("found %" PRIu64 " addresses in total",
 				(uint64_t) allAddrs.size());
 		info("shown:%" PRIu64 " addresses", (uint64_t) addrNum);
-		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch')"
-				"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
 		fprintf(outfile, "COMMIT;\n");
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch') "
+				"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, to_timestamp(d.timestamp) "
+						"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
 		//fclose(outfile);
 		exit(0);
 	}
