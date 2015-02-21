@@ -296,7 +296,8 @@ struct AllBalances: public Callback
 				-(int64_t) value, downTXHash, inputIndex);
 	}
 
-	virtual void wrapup()
+
+	void dumpStats()
 	{
 
 		CompareAddr compare;
@@ -337,12 +338,6 @@ struct AllBalances: public Callback
 			{
 				balanceMap[exp] += 1;
 			}
-
-//			timeVector.push_back(std::string(timeBuf));
-//			for (auto &it : balanceMap)
-//			{
-//				std::cout << it.first << '\t' << it.second << std::endl;
-//			}
 			++addrNum;
 		}
 
@@ -419,23 +414,28 @@ struct AllBalances: public Callback
 			//timeVector.push_back(std::string(timeBuf));
 			lastYear = timeStruct.tm_year;
 			lastMonth = timeStruct.tm_mon;
-			wrapup();
+			dumpStats();
 		}
 
 		if (0 <= cutoffBlock && cutoffBlock <= curBlock->height)
 		{
-			info("done\n");
-			info("found %" PRIu64 " addresses with non zero balance",
-					nonZeroCnt);
-			info("found %" PRIu64 " addresses in total",
-					(uint64_t) allAddrs.size());
-			info("shown:%" PRIu64 " addresses", (uint64_t) addrNum);
-			fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch')"
-					"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
-			fprintf(outfile, "COMMIT;\n");
-			//fclose(outfile);
-			exit(0);
+			wrapup();
 		}
+	}
+
+	virtual void wrapup()
+	{
+		info("done\n");
+		info("found %" PRIu64 " addresses with non zero balance",
+				nonZeroCnt);
+		info("found %" PRIu64 " addresses in total",
+				(uint64_t) allAddrs.size());
+		info("shown:%" PRIu64 " addresses", (uint64_t) addrNum);
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch')"
+				"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+		fprintf(outfile, "COMMIT;\n");
+		//fclose(outfile);
+		exit(0);
 	}
 
 	~AllBalances()
@@ -444,34 +444,5 @@ struct AllBalances: public Callback
 	}
 
 };
-
-//class Sqlite
-//{
-//	int status;
-//	sqlite3 *cur;
-//
-//	void checkEsito()
-//	{
-//		if(status != SQLITE_OK)
-//		{
-//			printf("%s\n", sqlite3_errmsg(cur));
-//			exit(-1);
-//		}
-//	}
-//
-//public:
-//
-//	Sqlite(std::string filename)
-//	{
-//		status = sqlite3_open(filename.c_str(), &cur);
-//		checkEsito();
-//	}
-//
-//	void exec(std::string statement)
-//	{
-//		status = sqlite3_prepare(cur, statement.c_str(), );
-//	}
-//
-//};
 
 static AllBalances allBalances;
