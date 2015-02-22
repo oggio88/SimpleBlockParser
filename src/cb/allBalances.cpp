@@ -397,7 +397,7 @@ struct AllBalances: public Callback
 			{
 				balanceMap[exp] += 1;
 			}
-			balanceArray[computeClass(addr->sum)] = addr->sum;
+			balanceArray[computeClass(addr->sum)]++;
 
 			++addrNum;
 		}
