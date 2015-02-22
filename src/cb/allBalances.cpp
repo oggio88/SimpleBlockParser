@@ -15,12 +15,13 @@
 #include <cstdio>
 #include <sqlite3.h>
 
+#define BALANCE_CLASSES 12
+
 struct Addr;
 static uint8_t emptyKey[kSHA256ByteSize] =
 { 0x52 };
 typedef GoogMap<Hash160, Addr*, Hash160Hasher, Hash160Equal>::Map AddrMap;
 typedef GoogMap<Hash160, int, Hash160Hasher, Hash160Equal>::Map RestrictMap;
-typedef std::map<unsigned long, unsigned> BalanceMap;
 
 struct Output
 {
@@ -88,9 +89,8 @@ struct AllBalances: public Callback
 	char timeBuf[256];
 	FILE* outfile;
 
-	unsigned long idBalance=1, idDate=0;
+	unsigned long idBalance=1, idLogBalance=1, idDate=0;
 
-//	std::vector<std::string> timeVector;
 
 	AllBalances()
 	{
@@ -155,8 +155,9 @@ struct AllBalances: public Callback
 			exit(-1);
 		}
 
-		const char* init = "BEGIN; CREATE TABLE date(id INTEGER PRIMARY KEY, timestamp INTEGER);\n"
-		"CREATE TABLE BalanceSegment(id INTEGER PRIMARY KEY,logBalance INTEGER, count INTEGER, date_id INTEGER);\n\n";
+		const char* init = "BEGIN; CREATE TABLE date(id INTEGER PRIMARY KEY, timestamp INTEGER, block_count INTEGER);\n"
+		"CREATE TABLE LogBalanceSegment(id INTEGER PRIMARY KEY,logBalance INTEGER, count INTEGER, date_id INTEGER);\n"
+		"CREATE TABLE BalanceSegment(id INTEGER PRIMARY KEY,balanceClass INTEGER, count INTEGER, date_id INTEGER);\n\n";
 		fprintf(outfile, init);
 
 		auto args = parser.args();
@@ -297,6 +298,58 @@ struct AllBalances: public Callback
 	}
 
 
+	unsigned computeClass(unsigned balance)
+	{
+		if(balance==0)
+		{
+			return 0;
+		}
+		else if(balance == 1)
+		{
+			return 1;
+		}
+		else if(balance < (int)(0.001*100e6))
+		{
+			return 2;
+		}
+		else if(balance < (int)(0.01*100e6))
+		{
+			return 3;
+		}
+		else if(balance < (int)(0.1*100e6))
+		{
+			return 4;
+		}
+		else if(balance < (int)(100e6))
+		{
+			return 5;
+		}
+		else if(balance < (int)(10*100e6))
+		{
+			return 6;
+		}
+		else if(balance < (int)(100*100e6))
+		{
+			return 7;
+		}
+		else if(balance < (int)(1000*100e6))
+		{
+			return 8;
+		}
+		else if(balance < (int)(10000*100e6))
+		{
+			return 9;
+		}
+		else if(balance < (int)(100000*100e6))
+		{
+			return 10;
+		}
+		else
+		{
+			return 11;
+		}
+	}
+
 	void dumpStats()
 	{
 
@@ -310,6 +363,11 @@ struct AllBalances: public Callback
 		addrNum = 0;
 		nonZeroCnt = 0;
 		BalanceMap balanceMap;
+		unsigned balanceArray[BALANCE_CLASSES];
+		for(unsigned &u : balanceArray)
+		{
+			u=0;
+		}
 
 		while (likely(s < e))
 		{
@@ -334,18 +392,30 @@ struct AllBalances: public Callback
 			if (balanceMap.find(exp) == balanceMap.end())
 			{
 				balanceMap[exp] = 1;
-			} else
+			}
+			else
 			{
 				balanceMap[exp] += 1;
 			}
+			balanceArray[computeClass(addr->sum)] = addr->sum;
+
 			++addrNum;
 		}
 
+		std::string insert;
 		for (auto x : balanceMap)
 		{
-			std::string insert = "INSERT INTO BalanceSegment(id, logBalance, count, date_id) VALUES(%lu, %lu, %u, %lu);\n";
-			fprintf(outfile, insert.c_str(), idBalance++, x.first, x.second, idDate);
+			insert = "INSERT INTO LogBalanceSegment(id, logBalance, count, date_id) VALUES(%lu, %lu, %u, %lu);\n";
+			fprintf(outfile, insert.c_str(), idLogBalance++, x.first, x.second, idDate);
 		}
+
+		for(unsigned i=0; i<BALANCE_CLASSES; i++)
+		{
+			insert = "INSERT INTO BalanceSegment(id, balanceClass, count, date_id) VALUES(%lu, %lu, %u, %lu);\n";
+			fprintf(outfile, insert.c_str(), idBalance++, i, balanceArray[i], idDate);
+		}
+
+
 		fprintf(outfile, "\n");
 	}
 
@@ -407,8 +477,8 @@ struct AllBalances: public Callback
 
 		if (timeStruct.tm_mon > lastMonth || timeStruct.tm_year > lastYear)
 		{
-			std::string insert_date = "INSERT INTO DATE(id, timestamp) VALUES(%lu, %lu);\n";
-			fprintf(outfile, insert_date.c_str(), ++idDate, mktime(&timeStruct));
+			std::string insert_date = "INSERT INTO DATE(id, timestamp, block_count) VALUES(%lu, %lu, %lu);\n";
+			fprintf(outfile, insert_date.c_str(), ++idDate, mktime(&timeStruct), b->height);
 
 			std::cout << timeBuf << std::endl;
 			//timeVector.push_back(std::string(timeBuf));
@@ -432,10 +502,15 @@ struct AllBalances: public Callback
 				(uint64_t) allAddrs.size());
 		info("shown:%" PRIu64 " addresses", (uint64_t) addrNum);
 		fprintf(outfile, "COMMIT;\n");
-		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch') "
-				"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
-		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.logBalance, b.count, to_timestamp(d.timestamp) "
-						"as mese from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+		fprintf(outfile, "%s\n", "CREATE VIEW mainViewLog AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch') "
+				"as mese, d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+		fprintf(outfile, "%s\n", "CREATE VIEW mainViewLog AS SELECT b.logBalance, b.count, to_timestamp(d.timestamp) "
+						"as mese, d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, datetime(d.timestamp, 'unixepoch') "
+						"as mese, d.block_count from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, datetime(d.timestamp, 'unixepoch') "
+						"as mese, d.block_count from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
 		//fclose(outfile);
 		exit(0);
 	}
