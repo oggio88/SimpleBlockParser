@@ -298,7 +298,7 @@ struct AllBalances: public Callback
 	}
 
 
-	unsigned computeClass(unsigned balance)
+	unsigned computeClass(uint64_t balance)
 	{
 		if(balance==0)
 		{
@@ -308,39 +308,39 @@ struct AllBalances: public Callback
 		{
 			return 1;
 		}
-		else if(balance < (int)(0.001*100e6))
+		else if(balance < (uint64_t)(0.001*100e6))
 		{
 			return 2;
 		}
-		else if(balance < (int)(0.01*100e6))
+		else if(balance < (uint64_t)(0.01*100e6))
 		{
 			return 3;
 		}
-		else if(balance < (int)(0.1*100e6))
+		else if(balance < (uint64_t)(0.1*100e6))
 		{
 			return 4;
 		}
-		else if(balance < (int)(100e6))
+		else if(balance < (uint64_t)(100e6))
 		{
 			return 5;
 		}
-		else if(balance < (int)(10*100e6))
+		else if(balance < (uint64_t)(10*100e6))
 		{
 			return 6;
 		}
-		else if(balance < (int)(100*100e6))
+		else if(balance < (uint64_t)(100*100e6))
 		{
 			return 7;
 		}
-		else if(balance < (int)(1000*100e6))
+		else if(balance < (uint64_t)(1000*100e6))
 		{
 			return 8;
 		}
-		else if(balance < (int)(10000*100e6))
+		else if(balance < (uint64_t)(10000*100e6))
 		{
 			return 9;
 		}
-		else if(balance < (int)(100000*100e6))
+		else if(balance < (uint64_t)(100000*100e6))
 		{
 			return 10;
 		}
@@ -502,14 +502,20 @@ struct AllBalances: public Callback
 				(uint64_t) allAddrs.size());
 		info("shown:%" PRIu64 " addresses", (uint64_t) addrNum);
 		fprintf(outfile, "COMMIT;\n");
-		fprintf(outfile, "%s\n", "CREATE VIEW mainViewLog AS SELECT b.logBalance, b.count, datetime(d.timestamp, 'unixepoch') "
-				"as mese, d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
-		fprintf(outfile, "%s\n", "CREATE VIEW mainViewLog AS SELECT b.logBalance, b.count, to_timestamp(d.timestamp) "
-						"as mese, d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
+
+		std::string view = "CREATE VIEW mainViewLog AS SELECT trunc(1e-8*10^((b.logbalance-1)/16.0), 3) as min,"
+				" trunc(1e-8*10^(b.logbalance/16.0),3) as max, b.count, datetime(d.timestamp, 'unixepoch') as mese,"
+				" d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;\n";
+		fprintf(outfile, view.c_str());
+
+		view = "CREATE VIEW mainViewLog AS SELECT trunc(1e-8*10^((b.logbalance-1)/16.0), 3) as min,"
+				" trunc(1e-8*10^(b.logbalance/16.0),3) as max, b.count, to_timestamp(d.timestamp) as mese,"
+				" d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;\n";
+		fprintf(outfile, view.c_str());
 
 		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, datetime(d.timestamp, 'unixepoch') "
 						"as mese, d.block_count from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
-		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, datetime(d.timestamp, 'unixepoch') "
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, to_timestamp(d.timestamp) "
 						"as mese, d.block_count from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
 		//fclose(outfile);
 		exit(0);
