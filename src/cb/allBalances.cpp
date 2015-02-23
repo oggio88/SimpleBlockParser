@@ -35,8 +35,6 @@ struct Output
 
 typedef std::vector<Output> OutputVec;
 
-typedef std::map<unsigned long, unsigned> BalanceMap;
-
 struct Addr
 {
 	uint64_t sum;
@@ -47,6 +45,20 @@ struct Addr
 	uint32_t lastOut;
 	OutputVec *outputVec;
 };
+
+struct BalanceClass
+{
+	uint64_t count;
+	uint64_t totalSatoshis;
+
+	BalanceClass(uint64_t count=0, uint64_t totalSatoshis=0)
+	{
+		this->count = count;
+		this->totalSatoshis = totalSatoshis;
+	}
+};
+
+typedef std::map<unsigned long, BalanceClass> BalanceMap;
 
 template<> uint8_t *PagedAllocator<Addr>::pool = 0;
 template<> uint8_t *PagedAllocator<Addr>::poolEnd = 0;
@@ -110,7 +122,7 @@ struct AllBalances: public Callback
 		parser.add_option("-d", "--detailed").action("store_true").set_default(
 				false).help("also show all unspent outputs");
 		parser.add_option("-o", "--outputFile").action("store").set_default(
-				"out.txt").help("");
+				"out.sql").help("");
 	}
 
 	virtual const char *name() const
@@ -155,9 +167,9 @@ struct AllBalances: public Callback
 			exit(-1);
 		}
 
-		const char* init = "BEGIN; CREATE TABLE date(id INTEGER PRIMARY KEY, timestamp INTEGER, block_count INTEGER);\n"
-		"CREATE TABLE LogBalanceSegment(id INTEGER PRIMARY KEY,logBalance INTEGER, count INTEGER, date_id INTEGER);\n"
-		"CREATE TABLE BalanceSegment(id INTEGER PRIMARY KEY,balanceClass INTEGER, count INTEGER, date_id INTEGER);\n\n";
+		const char* init = "BEGIN; CREATE TABLE date(id BIGINT PRIMARY KEY, timestamp BIGINT, block_count BIGINT);\n"
+		"CREATE TABLE LogBalanceSegment(id BIGINT PRIMARY KEY,logBalance BIGINT, count BIGINT, totalSatoshis BIGINT, date_id BIGINT);\n"
+		"CREATE TABLE BalanceSegment(id BIGINT PRIMARY KEY,balanceClass BIGINT, count BIGINT, totalSatoshis BIGINT, date_id BIGINT);\n\n";
 		fprintf(outfile, init);
 
 		auto args = parser.args();
@@ -363,11 +375,7 @@ struct AllBalances: public Callback
 		addrNum = 0;
 		nonZeroCnt = 0;
 		BalanceMap balanceMap;
-		unsigned balanceArray[BALANCE_CLASSES];
-		for(unsigned &u : balanceArray)
-		{
-			u=0;
-		}
+		BalanceClass balanceArray[BALANCE_CLASSES];
 
 		while (likely(s < e))
 		{
@@ -391,13 +399,19 @@ struct AllBalances: public Callback
 			int exp = addr->sum > 0 ? log10(addr->sum) * 16 + 1 : 0;
 			if (balanceMap.find(exp) == balanceMap.end())
 			{
-				balanceMap[exp] = 1;
+				BalanceClass bc;
+				bc.count = 1;
+				bc.totalSatoshis = addr->sum;
+				balanceMap[exp] = bc;
 			}
 			else
 			{
-				balanceMap[exp] += 1;
+				balanceMap[exp].count += 1;
+				balanceMap[exp].totalSatoshis += addr->sum;
 			}
-			balanceArray[computeClass(addr->sum)]++;
+			unsigned index = computeClass(addr->sum);
+			balanceArray[index].count++;
+			balanceArray[index].totalSatoshis += addr->sum;
 
 			++addrNum;
 		}
@@ -405,14 +419,14 @@ struct AllBalances: public Callback
 		std::string insert;
 		for (auto x : balanceMap)
 		{
-			insert = "INSERT INTO LogBalanceSegment(id, logBalance, count, date_id) VALUES(%lu, %lu, %u, %lu);\n";
-			fprintf(outfile, insert.c_str(), idLogBalance++, x.first, x.second, idDate);
+			insert = "INSERT INTO LogBalanceSegment(id, logBalance, count, totalSatoshis, date_id) VALUES(%lu, %lu, %u, %lu, %lu);\n";
+			fprintf(outfile, insert.c_str(), idLogBalance++, x.first, x.second.count, x.second.totalSatoshis, idDate);
 		}
 
 		for(unsigned i=0; i<BALANCE_CLASSES; i++)
 		{
-			insert = "INSERT INTO BalanceSegment(id, balanceClass, count, date_id) VALUES(%lu, %lu, %u, %lu);\n";
-			fprintf(outfile, insert.c_str(), idBalance++, i, balanceArray[i], idDate);
+			insert = "INSERT INTO BalanceSegment(id, balanceClass, count, totalSatoshis, date_id) VALUES(%lu, %lu, %u, %lu, %lu);\n";
+			fprintf(outfile, insert.c_str(), idBalance++, i, balanceArray[i].count, balanceArray[i].totalSatoshis, idDate);
 		}
 
 
@@ -504,18 +518,18 @@ struct AllBalances: public Callback
 		fprintf(outfile, "COMMIT;\n");
 
 		std::string view = "CREATE VIEW mainViewLog AS SELECT trunc(1e-8*10^((b.logbalance-1)/16.0), 3) as min,"
-				" trunc(1e-8*10^(b.logbalance/16.0),3) as max, b.count, datetime(d.timestamp, 'unixepoch') as mese,"
+				" trunc(1e-8*10^(b.logbalance/16.0),3) as max, b.count, b.totalSatoshis, datetime(d.timestamp, 'unixepoch') as mese,"
 				" d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;\n";
 		fprintf(outfile, view.c_str());
 
 		view = "CREATE VIEW mainViewLog AS SELECT trunc(1e-8*10^((b.logbalance-1)/16.0), 3) as min,"
-				" trunc(1e-8*10^(b.logbalance/16.0),3) as max, b.count, to_timestamp(d.timestamp) as mese,"
+				" trunc(1e-8*10^(b.logbalance/16.0),3) as max, b.count, b.totalSatoshis, to_timestamp(d.timestamp) as mese,"
 				" d.block_count from LogBalanceSegment b, date d where b.date_id=d.id order by d.timestamp;\n";
 		fprintf(outfile, view.c_str());
 
-		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, datetime(d.timestamp, 'unixepoch') "
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, b.totalSatoshis, datetime(d.timestamp, 'unixepoch') "
 						"as mese, d.block_count from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
-		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, to_timestamp(d.timestamp) "
+		fprintf(outfile, "%s\n", "CREATE VIEW mainView AS SELECT b.balanceClass, b.count, b.totalSatoshis, to_timestamp(d.timestamp) "
 						"as mese, d.block_count from BalanceSegment b, date d where b.date_id=d.id order by d.timestamp;");
 		//fclose(outfile);
 		exit(0);

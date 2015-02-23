@@ -1,366 +1,362 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?>
-
-<cproject>
-<storageModule moduleId="org.eclipse.cdt.core.settings">
-<cconfiguration id="org.eclipse.cdt.core.default.config.1">
-<storageModule buildSystemId="org.eclipse.cdt.core.defaultConfigDataProvider" id="org.eclipse.cdt.core.default.config.1" moduleId="org.eclipse.cdt.core.settings" name="Configuration">
-<externalSettings/>
-<extensions>
-<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser">
-<attribute key="addr2line" value="addr2line"/>
-<attribute key="c++filt" value="c++filt"/>
-</extension>
-</extensions>
-</storageModule>
-<storageModule moduleId="org.eclipse.cdt.core.language.mapping">
-<project-mappings/>
-</storageModule>
-<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
-<storageModule moduleId="org.eclipse.cdt.core.pathentry">
-<pathentry excluding="**/CMakeFiles/" kind="out" path=""/>
-<pathentry kind="mac" name="BITCOIN" path="" value=""/>
-<pathentry include="/home/walter/c_workspace/SimpleBlockParser-Debug@SimpleBlockParser/src" kind="inc" path="" system="true"/>
-</storageModule>
-<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
-<buildTargets>
-<target name="[exe] sbp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>sbp</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[exe] sbp/fast" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>sbp/fast</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="Build" path="[Targets]/[exe] sbp" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments>-C "/home/walter/c_workspace/SimpleBlockParser-Debug@SimpleBlockParser" </buildArguments>
-<buildTarget>sbp</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="Clean" path="[Targets]/[exe] sbp" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/cmake</buildCommand>
-<buildArguments>-E chdir "/home/walter/c_workspace/SimpleBlockParser-Debug@SimpleBlockParser" "/usr/bin/cmake" -P "CMakeFiles/sbp.dir/cmake_clean.cmake"</buildArguments>
-<buildTarget></buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": install/strip" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>install/strip</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": edit_cache" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>edit_cache</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": rebuild_cache" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>rebuild_cache</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": install" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>install</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": list_install_components" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>list_install_components</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": install/local" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>install/local</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": all" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>all</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": clean" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>clean</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/callback.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/callback.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/allBalances.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/allBalances.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/closure.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/closure.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/dumpTX.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/dumpTX.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/help.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/help.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/pristine.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/pristine.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/rawdump.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/rawdump.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/rewards.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/rewards.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/simpleStats.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/simpleStats.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/sql.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/sql.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/taint.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/taint.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/cb/transactions.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/cb/transactions.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/aes_helper.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/aes_helper.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/blake.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/blake.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/bmw.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/bmw.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/cubehash.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/cubehash.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/echo.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/echo.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/groestl.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/groestl.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/jh.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/jh.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/keccak.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/keccak.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/luffa.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/luffa.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/shavite.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/shavite.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/simd.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/simd.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/h9/skein.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/h9/skein.c.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/opcodes.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/opcodes.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/option.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/option.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/parser.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/parser.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/rmd160.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/rmd160.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/scrypt/pbkdf2.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/scrypt/pbkdf2.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/scrypt/scrypt.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/scrypt/scrypt.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/sha256.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/sha256.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name="[obj] src/util.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>src/util.cpp.o</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-</buildTargets>
-</storageModule>
-<storageModule moduleId="scannerConfiguration">
-<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
-<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
-<buildOutputProvider>
-<openAction enabled="true" filePath=""/>
-<parser enabled="true"/>
-</buildOutputProvider>
-<scannerInfoProvider id="specsFile">
-<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="/usr/bin/cc" useDefault="true"/>
-<parser enabled="true"/>
-</scannerInfoProvider>
-</profile>
-<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
-<buildOutputProvider>
-<openAction enabled="true" filePath=""/>
-<parser enabled="true"/>
-</buildOutputProvider>
-<scannerInfoProvider id="makefileGenerator">
-<runAction arguments="-f ${project_name}_scd.mk" command="/usr/bin/make" useDefault="true"/>
-<parser enabled="true"/>
-</scannerInfoProvider>
-</profile>
-</storageModule>
-</cconfiguration>
-</storageModule>
-<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-<project id="SimpleBlockParser.null.1" name="SimpleBlockParser"/>
-</storageModule>
+<?fileVersion 4.0.0?><cproject>
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="org.eclipse.cdt.core.default.config.1">
+			<storageModule buildSystemId="org.eclipse.cdt.core.defaultConfigDataProvider" id="org.eclipse.cdt.core.default.config.1" moduleId="org.eclipse.cdt.core.settings" name="Configuration">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.language.mapping">
+				<project-mappings/>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
+				<buildTargets>
+					<target name="[exe] sbp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>sbp</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[exe] sbp/fast" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>sbp/fast</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="Build" path="[Targets]/[exe] sbp" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments>-C "/home/walter/c_workspace/SimpleBlockParser-Debug@SimpleBlockParser" </buildArguments>
+						<buildTarget>sbp</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="Clean" path="[Targets]/[exe] sbp" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/cmake</buildCommand>
+						<buildArguments>-E chdir "/home/walter/c_workspace/SimpleBlockParser-Debug@SimpleBlockParser" "/usr/bin/cmake" -P "CMakeFiles/sbp.dir/cmake_clean.cmake"</buildArguments>
+						<buildTarget/>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": install/strip" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>install/strip</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": edit_cache" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>edit_cache</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": rebuild_cache" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>rebuild_cache</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": install" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>install</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": list_install_components" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>list_install_components</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": install/local" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>install/local</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": all" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>all</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name=": clean" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>clean</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/callback.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/callback.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/allBalances.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/allBalances.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/closure.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/closure.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/dumpTX.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/dumpTX.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/help.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/help.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/pristine.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/pristine.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/rawdump.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/rawdump.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/rewards.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/rewards.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/simpleStats.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/simpleStats.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/sql.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/sql.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/taint.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/taint.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/cb/transactions.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/cb/transactions.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/aes_helper.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/aes_helper.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/blake.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/blake.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/bmw.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/bmw.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/cubehash.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/cubehash.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/echo.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/echo.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/groestl.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/groestl.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/jh.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/jh.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/keccak.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/keccak.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/luffa.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/luffa.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/shavite.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/shavite.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/simd.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/simd.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/h9/skein.c.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/h9/skein.c.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/opcodes.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/opcodes.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/option.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/option.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/parser.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/parser.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/rmd160.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/rmd160.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/scrypt/pbkdf2.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/scrypt/pbkdf2.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/scrypt/scrypt.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/scrypt/scrypt.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/sha256.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/sha256.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+					<target name="[obj] src/util.cpp.o" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+						<buildCommand>/usr/bin/make</buildCommand>
+						<buildArguments/>
+						<buildTarget>src/util.cpp.o</buildTarget>
+						<stopOnError>true</stopOnError>
+						<useDefaultCommand>false</useDefaultCommand>
+					</target>
+				</buildTargets>
+			</storageModule>
+			<storageModule moduleId="scannerConfiguration">
+				<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
+				<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
+					<buildOutputProvider>
+						<openAction enabled="true" filePath=""/>
+						<parser enabled="true"/>
+					</buildOutputProvider>
+					<scannerInfoProvider id="specsFile">
+						<runAction arguments="-E -P -v -dD ${plugin_state_location}/${specs_file}" command="/usr/bin/cc" useDefault="true"/>
+						<parser enabled="true"/>
+					</scannerInfoProvider>
+				</profile>
+				<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile">
+					<buildOutputProvider>
+						<openAction enabled="true" filePath=""/>
+						<parser enabled="true"/>
+					</buildOutputProvider>
+					<scannerInfoProvider id="makefileGenerator">
+						<runAction arguments="-f ${project_name}_scd.mk" command="/usr/bin/make" useDefault="true"/>
+						<parser enabled="true"/>
+					</scannerInfoProvider>
+				</profile>
+			</storageModule>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="SimpleBlockParser.null.1" name="SimpleBlockParser"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.pathentry">
+		<pathentry excluding="**/CMakeFiles/" kind="out" path=""/>
+		<pathentry kind="mac" name="BITCOIN" path="" value=""/>
+		<pathentry include="/home/walter/c_workspace/SimpleBlockParser-Debug@SimpleBlockParser/src" kind="inc" path="" system="true"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 </cproject>
